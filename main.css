@@ -1,0 +1,107 @@
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(5, 61, 174, 0.896), transparent),
+        radial-gradient(circle at 80% 30%, rgba(56, 115, 10, 0.8), transparent),
+        radial-gradient(circle at 30% 70%, rgba(243, 3, 67, 0.714), transparent),
+        radial-gradient(circle at 70% 90%, rgba(154, 142, 37, 0.8), transparent),
+        radial-gradient(circle at 50% 50%, rgba(73, 219, 224, 0.8), transparent),
+        radial-gradient(circle at 90% 10%, rgba(90, 2, 135, 0.8), transparent),
+        radial-gradient(circle at 20% 80%, rgba(255, 1, 1, 0.8), transparent);
+    background-color: black;
+
+    animation: move 10s infinite alternate;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 50% 50%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+
+/* Use for Print text when page open*/
+
+#welcome-text {
+
+    height: 2%;
+    width: 10%;
+    margin-top: 2%;
+    margin-left: 40%;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* Use for Add Butterfly*/
+.butterfly {
+
+    display: inline;
+    position: absolute;
+    top: 1%;
+    right: 1%;
+
+}
+
+/* Use for Add New Task*/
+#Add_new_task {
+
+    background-color: rgb(80, 6, 163);
+    position: absolute;
+    left: 2%;
+    color: whitesmoke;
+    margin-top: 2.5%;
+    border-style: dotted;
+    border-radius: 4px;
+    display: block;
+}
+
+#input {
+    visibility: hidden;
+    margin-top: 2.5%;
+    margin-left: 2%;
+    left: 2%;
+    height: 00px;
+    border-radius: 10px;
+    width: 60%;
+    background-color: rgba(2, 112, 112, 0.5);
+
+}
+
+#input_text {
+    position: relative;
+    top: 33%;
+    left: 7%;
+    background-color: azure;
+    border-radius: 7px;
+
+}
+
+#datetime {
+    position: relative;
+    top: 47%;
+    left: 6.5%;
+    border-radius: 7px;
+    background-color: rgb(214, 202, 223);
+    color: black;
+}
+
+#enter_input {
+    position: relative;
+    top: 65%;
+    left: 6.5%;
+    border-radius: 4px;
+    color: whitesmoke;
+    background-color: rgb(93, 55, 55);
+}
