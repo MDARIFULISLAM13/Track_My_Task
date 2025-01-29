@@ -26,3 +26,20 @@ window.onload = function () {
     typeText(text, "welcome-text", 150); // Adjust delay (150ms per character) as needed
 };
 
+
+// Function to add a new Task
+document.getElementById("Add_new_task").addEventListener('click', function () {
+
+    document.getElementById("input").style.visibility = "visible";
+    document.getElementById("input").style.height = "12vh";
+    document.getElementById("input").style.width = "100vh";
+
+
+});
+
+
+// Load saved data from local storage
+let User_data = JSON.parse(localStorage.getItem("User_data")) || [];
+
+
+

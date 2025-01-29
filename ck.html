@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+</head>
+
+<body>
+    <h2>Countdown Timer</h2>
+
+    <!-- User input fields for date, time, and reason -->
+    <input type="datetime-local" id="datetime">
+    <input type="text" id="reason" placeholder="Enter reason">
+    <button onclick="addCountdown()">Add Countdown</button>
+
+    <h3>Countdown List:</h3>
+    <ul id="countdownList"></ul>
+
+    <script>
+        // Load saved countdowns from local storage
+        let countdowns = JSON.parse(localStorage.getItem("countdowns")) || [];
+
+        // Function to add a new countdown event
+        function addCountdown() {
+            const dateInput = document.getElementById("datetime").value;
+            const reasonInput = document.getElementById("reason").value;
+
+            if (!dateInput || !reasonInput) {
+                alert("Please enter both date and reason!");
+                return;
+            }
+
+            const newCountdown = {
+                id: Date.now(), // Unique identifier
+                date: dateInput,
+                reason: reasonInput
+            };
+
+            countdowns.push(newCountdown);
+            localStorage.setItem("countdowns", JSON.stringify(countdowns));
+            displayCountdowns();
+        }
+
+        // Function to display all countdowns sorted by time
+        function displayCountdowns() {
+            const list = document.getElementById("countdownList");
+            list.innerHTML = ""; // Clear existing list
+
+            const now = new Date().getTime(); // Get current timestamp
+
+            // Separate upcoming and expired events
+            let upcomingEvents = [];
+            let expiredEvents = [];
+
+            countdowns.forEach(entry => {
+                const targetTime = new Date(entry.date).getTime();
+                if (targetTime > now) {
+                    upcomingEvents.push(entry);
+                } else {
+                    expiredEvents.push(entry);
+                }
+            });
+
+            // Sort upcoming events by least time remaining
+            upcomingEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Sort expired events by oldest first
+            expiredEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Combine upcoming and expired events
+            const sortedCountdowns = [...upcomingEvents, ...expiredEvents];
+
+            sortedCountdowns.forEach(entry => {
+                const li = document.createElement("li");
+                const targetTime = new Date(entry.date).getTime();
+
+                // Create text span for event info
+                const infoSpan = document.createElement("span");
+                infoSpan.textContent = `Date: ${entry.date} | Reason: ${entry.reason} - `;
+                li.appendChild(infoSpan);
+
+                // Create span for countdown timer
+                const timeSpan = document.createElement("span");
+                li.appendChild(timeSpan);
+
+                // Create delete button
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.onclick = () => deleteCountdown(entry.id);
+                li.appendChild(deleteBtn);
+
+                list.appendChild(li); // Add list item to countdown list
+
+                function updateCountdown() {
+                    const now = new Date().getTime();
+                    const timeLeft = targetTime - now;
+
+                    if (timeLeft <= 0) {
+                        timeSpan.textContent = "Time's up!"; // Show expired message
+                        return;
+                    }
+
+                    // Calculate remaining time in days, hours, minutes, and seconds
+                    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    timeSpan.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+                }
+
+                updateCountdown(); // Initial update
+                setInterval(updateCountdown, 1000); // Update every second
+            });
+        }
+
+        // Function to delete a countdown event
+        function deleteCountdown(id) {
+            countdowns = countdowns.filter(entry => entry.id !== id);
+            localStorage.setItem("countdowns", JSON.stringify(countdowns));
+            displayCountdowns();
+        }
+
+        // Initialize the countdown list on page load
+        displayCountdowns();
+    </script>
+</body>
+
+</html>
