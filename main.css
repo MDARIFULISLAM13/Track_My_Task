@@ -105,3 +105,11 @@ body {
     color: whitesmoke;
     background-color: rgb(93, 55, 55);
 }
+
+#Task_up {
+
+    margin: 4%;
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: red;
+}
