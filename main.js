@@ -41,5 +41,12 @@ document.getElementById("Add_new_task").addEventListener('click', function () {
 // Load saved data from local storage
 let User_data = JSON.parse(localStorage.getItem("User_data")) || [];
 
+// Hide Add new Task Part Again
+document.getElementById("enter_input").addEventListener('click', function () {
+
+    document.getElementById("input").style.visibility = "hidden";
+    document.getElementById("input").style.height = "00px";
+
+});
 
 
