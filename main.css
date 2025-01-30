@@ -13,7 +13,7 @@ body {
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 @keyframes move {
@@ -119,7 +119,7 @@ body {
 
 /*Use for reset all Local data */
 #reset {
-    position: absolute;
+    position: fixed;
     top: 0%;
     right: 0%;
     color: rgb(0, 0, 0);
@@ -127,7 +127,7 @@ body {
 }
 
 #আমলনামা {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0%;
     color: rgb(97, 81, 81);

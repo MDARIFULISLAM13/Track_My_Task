@@ -3,6 +3,11 @@
 const pass = JSON.parse(localStorage.getItem("pass")) || "";
 User_name = JSON.parse(localStorage.getItem("Name")) || "";
 
+//
+const Running_value = parseInt(localStorage.getItem("Running_value")) || 0;
+const Complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
+const UnComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
+
 
 
 
@@ -154,6 +159,10 @@ document.getElementById("enter_input").addEventListener("click", function () {
     // Save the updated User_data array in localStorage
     localStorage.setItem("User_data", JSON.stringify(User_data));
 
+    // use for count running ,complete,uncomplete task
+    let runningValue = parseInt(localStorage.getItem("Running_value")) || 0;
+    localStorage.setItem("Running_value", runningValue + 1);
+
     // Call displayTask to show the updated list of tasks
     task_display();
 });
@@ -230,7 +239,9 @@ function task_display() {
 
         //task countdown timer
         const Time_left = document.createElement("span");
+        Time_left.style.cssText = "color : rgb(53, 193, 22); font-size : large ; margin-right: 1%;";
         li.appendChild(Time_left);
+
 
 
         if (entry.task_status == "Running") {
@@ -242,7 +253,7 @@ function task_display() {
         }
 
 
-
+        li.style.margin = "20px";
         list.appendChild(li); // Add list item to countdown list
 
 
@@ -267,6 +278,15 @@ function task_display() {
                 entry.task_status = "UnComplete";
                 Time_left.textContent = "Time's up";
                 localStorage.setItem("User_data", JSON.stringify(User_data));
+
+                // use for count running ,complete,uncomplete task
+                let runningValue = parseInt(localStorage.getItem("Running_value")) || 0;
+                localStorage.setItem("Running_value", runningValue - 1);
+
+
+                let unComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
+                localStorage.setItem("Running_value", unComplete_value + 1);
+
                 location.reload();
                 return;
 
@@ -309,10 +329,17 @@ function Complete__btn(id) {
             });
             task.time_left_ck = aaStart_time;
 
-
+            // use for count running ,complete,uncomplete task
             localStorage.setItem("User_data", JSON.stringify(User_data));
+            let runningValue = parseInt(localStorage.getItem("Running_value")) || 0;
+            localStorage.setItem("Running_value", runningValue - 1);
+
+            let complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
+            localStorage.setItem("Running_value", complete_value + 1);
+
 
             task_display();
+
         }
     } else {
         alert("Wrong Password");
@@ -333,6 +360,15 @@ document.getElementById("আমলনামা").addEventListener("click", funct
     report_page.style.display = "block";
     const report_page_close = document.getElementById("close_report");
     report_page_close.style.display = "block";
+
+    let running_value = parseInt(localStorage.getItem("Running_value")) || 0;
+    let complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
+    let unComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
+
+
+    console.log(running_value);
+    console.log(complete_value);
+
 
 })
 
