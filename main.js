@@ -176,7 +176,7 @@ function task_display() {
 
     User_data.forEach(entry => {
         const targetTime = new Date(entry.date).getTime();
-        if (targetTime > now) {
+        if (targetTime > now && entry.task_status == "Running") {
             upcomingEvents.push(entry);
         } else {
             expiredEvents.push(entry);
@@ -187,7 +187,7 @@ function task_display() {
     upcomingEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     // // Sort expired events by oldest first
-    expiredEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+    expiredEvents.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     // Combine upcoming and expired events
     const sorted_task = [...upcomingEvents, ...expiredEvents];
@@ -326,12 +326,28 @@ task_display();
 
 
 
+// See Report
+document.getElementById("আমলনামা").addEventListener("click", function () {
+
+    const report_page = document.getElementById("report");
+    report_page.style.display = "block";
+    const report_page_close = document.getElementById("close_report");
+    report_page_close.style.display = "block";
+
+})
+
+document.getElementById("close_report").addEventListener("click", function () {
+
+    const report_page = document.getElementById("report");
+    report_page.style.display = "none";
+
+    const report_page_close = document.getElementById("close_report");
+    report_page_close.style.display = "none";
 
 
 
 
-
-
+})
 
 
 

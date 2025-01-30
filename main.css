@@ -125,3 +125,30 @@ body {
     color: rgb(0, 0, 0);
     background-color: bisque;
 }
+
+#আমলনামা {
+    position: absolute;
+    bottom: 0;
+    right: 0%;
+    color: rgb(97, 81, 81);
+    background-color: rgba(252, 226, 194, 0.5);
+    padding: 5px;
+}
+
+#report {
+    background-color: rgb(0, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+}
+
+#close_report {
+    position: fixed;
+    top: 70%;
+    right: 50%;
+    display: none;
+
+}
