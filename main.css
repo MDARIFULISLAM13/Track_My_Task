@@ -88,13 +88,15 @@ body {
 
 }
 
-#datetime {
+#task_last_time {
     position: relative;
     top: 47%;
     left: 6.5%;
     border-radius: 7px;
     background-color: rgb(214, 202, 223);
-    color: black;
+    color: rgb(23, 220, 217);
+
+
 }
 
 #enter_input {
