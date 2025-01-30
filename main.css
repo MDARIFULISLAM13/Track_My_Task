@@ -113,3 +113,13 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     color: red;
 }
+
+
+/*Use for reset all Local data */
+#reset {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    color: rgb(0, 0, 0);
+    background-color: bisque;
+}

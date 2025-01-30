@@ -3,6 +3,33 @@
 pass = JSON.parse(localStorage.getItem("pass")) || "";
 User_name = JSON.parse(localStorage.getItem("Name")) || "";
 
+
+//Reset Storing Data from local
+document.getElementById("reset").addEventListener("click", function () {
+
+    const delete_user_name = prompt("Your Every Data will delete Parmentantly.If you want to Delete Everything,Inter Your Name")
+    if (User_name == delete_user_name) {
+        const delete_pass = prompt("Enter Your password");
+        if (pass == delete_pass) {
+            localStorage.clear();
+            alert("Reset data Successfully");
+            location.reload();
+        }
+        else {
+            alert("Wrong Password");
+
+        }
+    }
+    else {
+        alert("Wrong Input");
+
+    }
+
+
+
+
+
+});
 // Typing effect function
 function typeText(text, elementId, delay) {
     const element = document.getElementById(elementId);
@@ -52,18 +79,9 @@ document.getElementById("enter_input").addEventListener('click', function () {
 
 
 
-
-
-
-
-
-
-
-
-
 // Load saved data from local storage
-let User_data = JSON.parse(localStorage.getItem("User_data")) || [];
 
+let User_data = JSON.parse(localStorage.getItem("User_data")) || [];
 // Display tasks on page load
 displayTask();
 
@@ -74,6 +92,13 @@ document.getElementById("enter_input").addEventListener("click", function () {
 
     // Check for empty inputs, invalid date/time, or timeLeft <= 0
     const endTime = new Date(dateTime).getTime();
+
+
+
+
+
+
+
     if (!taskText || !dateTime || isNaN(endTime) || endTime <= new Date().getTime()) {
         alert("Wrong input. Please fill in both fields with valid information and ensure the time is in the future.");
 
@@ -91,10 +116,23 @@ document.getElementById("enter_input").addEventListener("click", function () {
     document.getElementById("input_text").value = "";
     document.getElementById("datetime").value = "";
     const status_new = "Running";
+
+    // Start Time adding
+    const Start_time = new Date().toLocaleString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    });
+    console.log(Start_time);
     // Create a new task object
     const new_Task = {
         id: Date.now(), // Unique identifier
         date: dateTime,
+        Start_time: Start_time,
         Task_name: taskText,
         task_status: status_new,
     };
@@ -144,10 +182,15 @@ function displayTask() {
 
         // Create text span for event info
         const infoSpan = document.createElement("span");
-        infoSpan.textContent = `Task: ${entry.Task_name}  -- Date: ${entry.date}  `;
+        infoSpan.textContent = `Task: ${entry.Task_name}  --End Date: ${entry.date}  `;
         infoSpan.classList.add("task-info");
         infoSpan.style.color = "RED";
         li.appendChild(infoSpan);
+        // show start time
+        const task_Start_time = document.createElement("span"); // Create a span element
+        task_Start_time.textContent = `Start Time : ${entry.Start_time}  ...`; // Set the status from new_Task object
+        li.appendChild(task_Start_time);
+
         // Create a span element for task status
         const taskstatus = document.createElement("span"); // Create a span element
         taskstatus.textContent = `Status : ${entry.task_status}      ...`; // Set the status from new_Task object
@@ -172,7 +215,21 @@ function displayTask() {
             const timeLeft = targetTime - now;
 
             if (timeLeft <= 0) {
-                timeSpan.textContent = "Time's up!"; // Show expired message
+
+                entry.task_status = "UnComplete";
+                timeSpan.textContent = "Time's up"; // Show expired message
+                localStorage.setItem("User_data", JSON.stringify(User_data));
+
+                return;
+
+            }
+            else if (entry.task_status == "Complete") {
+
+
+                timeSpan.textContent = "Time's up";
+                // timeSpan.textContent = "Time'00000000s up"; // Show expired message
+                localStorage.setItem("User_data", JSON.stringify(User_data));
+
                 return;
             }
 
@@ -183,6 +240,9 @@ function displayTask() {
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
             timeSpan.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
         }
+
+        // Create a variable to hold the interval ID
+        // Function to update countdown
 
         updateCountdown(); // Initial update
         setInterval(updateCountdown, 1000); // Update every second
@@ -200,10 +260,10 @@ function deleteCountdown(id) {
         const task = User_data.find(entry => entry.id === id);
         if (task) {
             task.task_status = "Complete"; // Update the task status to "Complete"
-            ;
+
             // Update User_data in localStorage
             localStorage.setItem("User_data", JSON.stringify(User_data));
-
+            updateCountdown()
             // Refresh the displayed task list
             displayTask();
         }
@@ -211,20 +271,18 @@ function deleteCountdown(id) {
         alert("Wrong Password");
     }
 
-
-
-
-
-
-
-    // User_data = User_data.filter(entry => entry.id !== id); // Filter from User_data
-    // localStorage.setItem("User_data", JSON.stringify(User_data)); // Update the localStorage
     displayTask(); // Refresh the displayed task list
 }
 
-
 // Initialize the countdown list on page load
 displayTask();
+
+
+
+
+
+
+
 
 
 
