@@ -1,69 +1,71 @@
-//Access User_name & Password from local
-
-pass = JSON.parse(localStorage.getItem("pass")) || "";
-User_name = JSON.parse(localStorage.getItem("Name")) || "";
-
-
-//Reset Storing Data from local
-document.getElementById("reset").addEventListener("click", function () {
-
-    const delete_user_name = prompt("Your Every Data will delete Parmentantly.If you want to Delete Everything,Inter Your Name")
-    if (User_name == delete_user_name) {
-        const delete_pass = prompt("Enter Your password");
-        if (pass == delete_pass) {
-            localStorage.clear();
-            alert("Reset data Successfully");
-            location.reload();
-        }
-        else {
-            alert("Wrong Password");
-
-        }
-    }
-    else {
-        alert("Wrong Input");
-
-    }
-
-
-
-
-
-});
-// Typing effect function
-function typeText(text, elementId, delay) {
-    const element = document.getElementById(elementId);
-    let index = 0;
-
-    function typeCharacter() {
-        if (index < text.length) {
-            element.textContent += text[index];
-            index++;
-            setTimeout(typeCharacter, delay);
-        }
-    }
-
-    typeCharacter(); // Start typing
+{
+    //Access User_name & Password from local
+    pass = JSON.parse(localStorage.getItem("pass")) || "";
+    User_name = JSON.parse(localStorage.getItem("Name")) || "";
 }
 
-// Call the typing effect on page load
 
-window.onload = function () {
-    let text = "Hi, welcome here " + User_name;
-    typeText(text, "welcome-text", 150); // Adjust delay (150ms per character) as needed
-};
+{
+    //Reset Storing Data from local
+    document.getElementById("reset").addEventListener("click", function () {
+
+        const delete_user_name = prompt("Your Every Data will delete Parmentantly.If you want to Delete Everything,Inter Your Name")
+        if (User_name == delete_user_name) {
+            const delete_pass = prompt("Enter Your password");
+            if (pass == delete_pass) {
+                localStorage.clear();
+                alert("Reset data Successfully");
+                location.reload();
+            }
+            else {
+
+                alert("Wrong Password");
+
+            }
+        }
+        else {
+            alert("Wrong Input");
+
+        }
+    });
+}
 
 
-// Function to add a new Task
-document.getElementById("Add_new_task").addEventListener('click', function () {
+{
+    // Typing effect function
+    function typeText(text, elementId, delay) {
+        const element = document.getElementById(elementId);
+        let index = 0;
 
-    document.getElementById("input").style.visibility = "visible";
-    document.getElementById("input").style.height = "12vh";
-    document.getElementById("input").style.width = "100vh";
+        function typeCharacter() {
+            if (index < text.length) {
+                element.textContent += text[index];
+                index++;
+                setTimeout(typeCharacter, delay);
+            }
+        }
+
+        typeCharacter(); // Start typing
+    }
+
+    // Call the typing effect on page load
+    window.onload = function () {
+        let text = "Hi, welcome here " + User_name;
+        typeText(text, "welcome-text", 150); // Adjust delay (150ms per character) as needed
+    };
+}
 
 
-});
 
+{
+    // Function to add a new Task
+    document.getElementById("Add_new_task").addEventListener('click', function () {
+
+        document.getElementById("input").style.visibility = "visible";
+        document.getElementById("input").style.height = "12vh";
+        document.getElementById("input").style.width = "100vh";
+    });
+}
 
 
 
@@ -77,10 +79,7 @@ document.getElementById("enter_input").addEventListener('click', function () {
 
 
 
-
-
 // Load saved data from local storage
-
 let User_data = JSON.parse(localStorage.getItem("User_data")) || [];
 // Display tasks on page load
 displayTask();
@@ -92,9 +91,6 @@ document.getElementById("enter_input").addEventListener("click", function () {
 
     // Check for empty inputs, invalid date/time, or timeLeft <= 0
     const endTime = new Date(dateTime).getTime();
-
-
-
 
 
 
@@ -127,16 +123,26 @@ document.getElementById("enter_input").addEventListener("click", function () {
         second: '2-digit',
         hour12: true
     });
-    console.log(Start_time);
-    // Create a new task object
+    //format endtime
+    const Last_timn = new Date(dateTime).toLocaleString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    });
+    let submit_ck = 0;
     const new_Task = {
         id: Date.now(), // Unique identifier
         date: dateTime,
+        last_time: Last_timn,
         Start_time: Start_time,
         Task_name: taskText,
         task_status: status_new,
+        submit_ck: submit_ck,
     };
-
     // Push the new task to the User_data array
     User_data.push(new_Task);
 
@@ -182,7 +188,7 @@ function displayTask() {
 
         // Create text span for event info
         const infoSpan = document.createElement("span");
-        infoSpan.textContent = `Task: ${entry.Task_name}  --End Date: ${entry.date}  `;
+        infoSpan.textContent = `Task: ${entry.Task_name}  --End Date: ${entry.last_time}  `;
         infoSpan.classList.add("task-info");
         infoSpan.style.color = "RED";
         li.appendChild(infoSpan);
@@ -226,7 +232,7 @@ function displayTask() {
             else if (entry.task_status == "Complete") {
 
 
-                timeSpan.textContent = "Time's up";
+                timeSpan.textContent = "00 00";
                 // timeSpan.textContent = "Time'00000000s up"; // Show expired message
                 localStorage.setItem("User_data", JSON.stringify(User_data));
 
@@ -263,7 +269,7 @@ function deleteCountdown(id) {
 
             // Update User_data in localStorage
             localStorage.setItem("User_data", JSON.stringify(User_data));
-            updateCountdown()
+            // updateCountdown()
             // Refresh the displayed task list
             displayTask();
         }
