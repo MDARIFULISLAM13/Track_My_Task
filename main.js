@@ -386,10 +386,13 @@ document.getElementById("আমলনামা").addEventListener("click", funct
 
     const success_rate = (complete_value / (complete_value + unComplete_value)) * 100;
 
+    if (complete_value + unComplete_value == 0) {
+        success_rate = "0"
+    }
+
+
     const Success_task_rate = document.getElementById("Success_task_rate");
     Success_task_rate.innerText = `Success_task : ${success_rate.toFixed(2)} %`
-
-
 
 })
 
