@@ -4,6 +4,7 @@ const pass = JSON.parse(localStorage.getItem("pass")) || "";
 User_name = JSON.parse(localStorage.getItem("Name")) || "";
 
 //
+const Total_value = parseInt(localStorage.getItem("Total_value")) || 0;
 const Running_value = parseInt(localStorage.getItem("Running_value")) || 0;
 const Complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
 const UnComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
@@ -121,7 +122,7 @@ document.getElementById("enter_input").addEventListener("click", function () {
 
 
     // Start time when task added
-    const Start_time = new Date().toLocaleString('en-US', {
+    const Start_time = new Date().toLocaleString('en-GB', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
@@ -131,7 +132,7 @@ document.getElementById("enter_input").addEventListener("click", function () {
     });
 
     // Last time when task time endd
-    const last_time = new Date(task_last_time).toLocaleString('en-US', {
+    const last_time = new Date(task_last_time).toLocaleString('en-GB', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
@@ -160,6 +161,11 @@ document.getElementById("enter_input").addEventListener("click", function () {
     localStorage.setItem("User_data", JSON.stringify(User_data));
 
     // use for count running ,complete,uncomplete task
+
+    let total_value = parseInt(localStorage.getItem("Total_value")) || 0;
+    localStorage.setItem("Total_value", total_value + 1);
+
+
     let runningValue = parseInt(localStorage.getItem("Running_value")) || 0;
     localStorage.setItem("Running_value", runningValue + 1);
 
@@ -285,7 +291,7 @@ function task_display() {
 
 
                 let unComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
-                localStorage.setItem("Running_value", unComplete_value + 1);
+                localStorage.setItem("UnComplete_value", unComplete_value + 1);
 
                 location.reload();
                 return;
@@ -298,7 +304,7 @@ function task_display() {
             const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            Time_left.textContent = `Time left : ${days}d ${hours}h ${minutes}m ${seconds}s `;
+            Time_left.textContent = `Time left : ${days}d ${hours}h ${minutes}m ${seconds}s`;
 
         }
 
@@ -319,7 +325,7 @@ function Complete__btn(id) {
         if (task) {
             task.task_status = "Complete";
 
-            const aaStart_time = new Date().toLocaleString('en-US', {
+            const aaStart_time = new Date().toLocaleString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
@@ -335,7 +341,7 @@ function Complete__btn(id) {
             localStorage.setItem("Running_value", runningValue - 1);
 
             let complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
-            localStorage.setItem("Running_value", complete_value + 1);
+            localStorage.setItem("Complete_value", complete_value + 1);
 
 
             task_display();
@@ -361,13 +367,28 @@ document.getElementById("আমলনামা").addEventListener("click", funct
     const report_page_close = document.getElementById("close_report");
     report_page_close.style.display = "block";
 
-    let running_value = parseInt(localStorage.getItem("Running_value")) || 0;
-    let complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
-    let unComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
+    const total_value = parseInt(localStorage.getItem("Total_value")) || 0;
+    const running_value = parseInt(localStorage.getItem("Running_value")) || 0;
+    const complete_value = parseInt(localStorage.getItem("Complete_value")) || 0;
+    const unComplete_value = parseInt(localStorage.getItem("UnComplete_value")) || 0;
 
+    const Total_task_report = document.getElementById("Total_task_report");
+    Total_task_report.innerText = `Total Task : ${total_value}`
 
-    console.log(running_value);
-    console.log(complete_value);
+    const Running_task_report = document.getElementById("Running_task_report");
+    Running_task_report.innerText = `Running Task : ${running_value}`
+
+    const Complete_task_report = document.getElementById("Complete_task_report");
+    Complete_task_report.innerText = `Complete Task : ${complete_value}`
+
+    const Uncomplete_task_report = document.getElementById("Uncomplete_task_report");
+    Uncomplete_task_report.innerText = `Uncomplete Task : ${unComplete_value}`
+
+    const success_rate = (complete_value / (complete_value + unComplete_value)) * 100;
+
+    const Success_task_rate = document.getElementById("Success_task_rate");
+    Success_task_rate.innerText = `Success_task : ${success_rate.toFixed(2)} %`
+
 
 
 })
